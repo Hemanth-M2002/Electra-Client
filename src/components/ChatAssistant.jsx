@@ -59,7 +59,7 @@ export default function ChatAssistant({ selectedState, isOpen, setIsOpen }) {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/chat', {
+      const response = await axios.post('https://electra-server-hgq6.onrender.com/api/chat', {
         message: input,
         state: selectedState,
         history: messages.slice(1).map(m => ({ role: m.role, content: m.content }))

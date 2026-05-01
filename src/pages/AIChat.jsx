@@ -67,7 +67,7 @@ What would you like to know?`
     inputRef.current?.focus();
 
     try {
-      const response = await axios.post('http://localhost:5000/api/chat', {
+      const response = await axios.post('https://electra-server-hgq6.onrender.com/api/chat', {
         message: currentInput,
         state: selectedState,
         history: messages.map(m => ({ role: m.role, content: m.content }))
