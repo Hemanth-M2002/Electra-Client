@@ -46,6 +46,9 @@ export default function ChatPage({ selectedState }) {
   const abortControllerRef = useRef(null);
   const stopTypingRef = useRef(false);
   const messagesEndRef = useRef(null);
+  const scrollContainerRef = useRef(null);
+  const recognitionRef = useRef(null);
+  const isFirstRender = useRef(true);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -507,7 +510,7 @@ export default function ChatPage({ selectedState }) {
                           className="absolute -left-12 top-1/2 -translate-y-1/2 p-2 text-slate-300 hover:text-navy_blue opacity-0 group-hover/msg:opacity-100 transition-all"
                           title="Edit Message"
                         >
-                          <History className="w-4 h-4" />
+                          <RotateCcw className="w-4 h-4" />
                         </button>
                       </>
                     )
@@ -535,7 +538,7 @@ export default function ChatPage({ selectedState }) {
                         {msg.content}
                       </ReactMarkdown>
                       {msg.isTyping && <span className="animate-cursor" />}
-                      
+
                       {/* Assistant Actions */}
                       {!msg.isTyping && !msg.isError && (
                         <div className="absolute -right-12 top-0 flex flex-col gap-1 opacity-0 group-hover/msg:opacity-100 transition-all">
@@ -545,30 +548,28 @@ export default function ChatPage({ selectedState }) {
                           )}
                         </div>
                       )}
-                    </>
-                  )}
 
-                    {/* 3D Voter ID Trigger */}
-                    {msg.role === 'assistant' && (msg.content.toLowerCase().includes('voter id') || msg.content.toLowerCase().includes('epic card')) && !msg.isError && (
-                      <motion.div 
-                        initial={{ opacity: 0, scale: 0.95, y: 10 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
-                        transition={{ delay: 0.5 }}
-                        className="mt-6 rounded-3xl bg-slate-50 border border-slate-100 overflow-hidden shadow-inner"
-                      >
-                         <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
-                            <div className="flex items-center gap-2">
-                               <Sparkles className="w-4 h-4 text-saffron" />
-                               <span className="text-[10px] font-black text-navy_blue uppercase tracking-widest">Interactive Visual Guide</span>
-                            </div>
-                         </div>
-                         <VoterID3D height="280px" />
-                         <div className="p-4 bg-white flex flex-col gap-2">
-                            <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">AI Enhancement</p>
-                            <p className="text-[10px] text-navy_blue/70 font-medium italic">"Click and drag to rotate the card. Use the button below to inspect the back."</p>
-                         </div>
-                      </motion.div>
-                    )}
+                      {/* 3D Voter ID Trigger */}
+                      {msg.role === 'assistant' && (msg.content.toLowerCase().includes('voter id') || msg.content.toLowerCase().includes('epic card')) && !msg.isError && (
+                        <motion.div 
+                          initial={{ opacity: 0, scale: 0.95, y: 10 }}
+                          animate={{ opacity: 1, scale: 1, y: 0 }}
+                          transition={{ delay: 0.5 }}
+                          className="mt-6 rounded-3xl bg-slate-50 border border-slate-100 overflow-hidden shadow-inner"
+                        >
+                           <div className="p-4 border-b border-slate-100 flex items-center justify-between bg-white">
+                              <div className="flex items-center gap-2">
+                                 <Sparkles className="w-4 h-4 text-saffron" />
+                                 <span className="text-[10px] font-black text-navy_blue uppercase tracking-widest">Interactive Visual Guide</span>
+                              </div>
+                           </div>
+                           <VoterID3D height="280px" />
+                           <div className="p-4 bg-white flex flex-col gap-2">
+                              <p className="text-[9px] font-bold text-slate-400 uppercase tracking-tight">AI Enhancement</p>
+                              <p className="text-[10px] text-navy_blue/70 font-medium italic">"Click and drag to rotate the card. Use the button below to inspect the back."</p>
+                           </div>
+                        </motion.div>
+                      )}
                       {msg.model && (
                         <div className="mt-8 pt-6 border-t border-slate-50 flex items-center justify-between">
                           <span className="text-[7px] md:text-[9px] font-black text-slate-300 uppercase tracking-[0.2em]">Validated by {msg.model.replace('models/', '')} Engine</span>
@@ -580,8 +581,6 @@ export default function ChatPage({ selectedState }) {
                         </div>
                       )}
                     </>
-                  ) : (
-                    <p className="font-medium text-sm md:text-base leading-relaxed">{msg.content}</p>
                   )}
                 </div>
               </motion.div>
