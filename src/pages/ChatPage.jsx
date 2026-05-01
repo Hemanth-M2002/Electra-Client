@@ -154,7 +154,7 @@ export default function ChatPage({ selectedState }) {
     setIsLoading(true);
 
     try {
-      const response = await axios.post('https://electra-server-hgq6.onrender.com/api/chat', {
+      const response = await axios.post('${import.meta.env.VITE_API_URL}/api/chat', {
         message: messageToSend,
         state: selectedState,
         language: language,

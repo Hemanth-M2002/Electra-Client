@@ -97,7 +97,7 @@ export default function Explorer({ selectedState }) {
     setLiveCandidates([]);
     setDataSource('');
     try {
-      const response = await axios.post('https://electra-server-hgq6.onrender.com/api/candidates', { constituency: cName });
+      const response = await axios.post('${import.meta.env.VITE_API_URL}/api/candidates', { constituency: cName });
       setLiveCandidates(response.data.candidates || []);
       setDataSource(response.data.source || 'Public Records');
     } catch (err) {
